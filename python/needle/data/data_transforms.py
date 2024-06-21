@@ -20,7 +20,9 @@ class RandomFlipHorizontal(Transform):
         """
         flip_img = np.random.rand() < self.p
         ### BEGIN YOUR SOLUTION
-        raise NotImplementedError()
+        if flip_img: 
+            return np.fliplr(img)
+        return img 
         ### END YOUR SOLUTION
 
 
@@ -37,6 +39,29 @@ class RandomCrop(Transform):
         Note: generate the image shifted by shift_x, shift_y specified below
         """
         shift_x, shift_y = np.random.randint(low=-self.padding, high=self.padding+1, size=2)
+        #padded_img = np.pad(img, ((self.padding, self.padding), (self.padding, self.padding), (0, 0)), mode='constant')
+        if abs(shift_x) > img.shape[0] or abs(shift_y) > img.shape[1]:
+            return np.zeros_like(img)
+        
+        # both shifts areguaranteed to be less than the normal dim 
+        out_img = np.zeros_like(img)
+        
+        # Negative shift means that out img should have {0, img[0:x_max - shift_x]}, with the number of zeros as (self.padding - shift_x)
+        # Positive means that out img should have {img[shift_x:x_max], 0}, with the number of zeros as (self.padding - shift_x)
+
+        out_x_min, out_x_max = max(0, -shift_x), min(img.shape[0], -shift_x + img.shape[0])
+        out_y_min, out_y_max = max(0, -shift_y), min(img.shape[1], -shift_y + img.shape[1])
+
+        
+
+        # If left shift, 
+        img_x_min = max(0, shift_x)
+        img_x_max = min(img.shape[0], shift_x + img.shape[0])
+        img_y_min = max(0, shift_y)
+        img_y_max = min(img.shape[1], shift_y + img.shape[1])
+
+
+        out_img[out_x_min:out_x_max, out_y_min:out_y_max, :] = img[img_x_min:img_x_max, img_y_min:img_y_max, :]
         ### BEGIN YOUR SOLUTION
-        raise NotImplementedError()
+        return out_img
         ### END YOUR SOLUTION

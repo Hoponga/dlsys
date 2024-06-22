@@ -162,8 +162,8 @@ class BatchNorm1d(Module):
         ### BEGIN YOUR SOLUTION
         self.weight = Parameter(init.ones(dim), device = device, dtype = dtype)
         self.bias = Parameter(init.zeros(dim), device = device, dtype = dtype )
-        self.running_mean = Parameter(init.zeros(dim), device = device, dtype = dtype )
-        self.running_var = Parameter(init.ones(dim), device = device, dtype = dtype)
+        self.running_mean = init.zeros(dim)
+        self.running_var = init.ones(dim)
         ### END YOUR SOLUTION
 
     def forward(self, x: Tensor) -> Tensor:
@@ -228,7 +228,7 @@ class LayerNorm1d(Module):
         
 
         Ex = ops.broadcast_to(ops.reshape(Ex, Ex.shape + (1,)), x.shape)
-        print(Ex, Ex.shape)
+        #print(Ex, Ex.shape)
         # x is of size (B, F), then Ex will be of size (B, 1)
 
         varx = 1/x.shape[-1]*ops.summation(ops.power_scalar(x - Ex, 2), axes = (-1,)) 
@@ -250,10 +250,9 @@ class Dropout(Module):
     def forward(self, x: Tensor) -> Tensor:
         ### BEGIN YOUR SOLUTION
         if self.training: 
-            dist = init.rand(*x.shape)
-            mask = Tensor((dist.numpy() < self.p).astype(int))
+            drop_mask = init.randb(*x.shape, p=1 - self.p)
             
-            return 1/(1-self.p)*x * mask 
+            return 1/(1-self.p)*x * drop_mask 
 
 
         return x 

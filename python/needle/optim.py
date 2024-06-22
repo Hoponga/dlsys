@@ -35,10 +35,10 @@ class SGD(Optimizer):
 
             hashed = hash(param)
             self.u[hashed] = self.momentum*self.u[hashed] + (1 - self.momentum)*(param_grad.data + self.weight_decay * param.data)
-            print(param_grad.data.dtype)
+            #print(param_grad.data.dtype)
             # why is the grad of dtype float64 but the normal data is of dtype float32
 
-            print(self.u[hashed].dtype)
+            #print(self.u[hashed].dtype)
             param.data = param.data - self.lr*self.u[hashed]
 
 

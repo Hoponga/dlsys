@@ -69,7 +69,7 @@ class LogSumExp(TensorOp):
         else: 
             grad = out_grad 
 
-        print(grad.shape, grad_result.shape, a.shape)
+        #print(grad.shape, grad_result.shape, a.shape)
         return broadcast_to(grad, a.shape) * Tensor(grad_result, dtype = grad.dtype)
 
 

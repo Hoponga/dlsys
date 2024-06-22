@@ -71,9 +71,9 @@ class MNISTDataset(Dataset):
             n = self.X[index].shape[0] 
         X = X.reshape(28, 28, -1)
         X = X.reshape(n, 28, 28, -1)
-        
 
-        print(X.shape)
+
+        #print(X.shape)
         X.setflags(write = 1)
 
         for i in range(n): 

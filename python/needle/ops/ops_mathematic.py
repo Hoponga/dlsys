@@ -280,8 +280,8 @@ class MatMul(TensorOp):
         if len(grad_b.shape) != len(b.shape): 
             grad_b = summation(grad_b, tuple(range(len(grad_b.shape) - len(b.shape))))
 
-        print(grad_a.shape, a.shape)
-        print(grad_b.shape, b.shape)
+        #print(grad_a.shape, a.shape)
+        #print(grad_b.shape, b.shape)
         return grad_a, grad_b 
         ### END YOUR SOLUTION
 
